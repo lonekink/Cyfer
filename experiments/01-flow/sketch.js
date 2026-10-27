@@ -1,4 +1,4 @@
-// NULLFIELD / 01 — FLOW FIELD
+// CYFER / 01 — FLOW FIELD
 // Controls: R regenerates, S saves a PNG.
 
 let walkers = [];
