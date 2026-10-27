@@ -1,4 +1,4 @@
-// CYFER / 02 — ORBIT DRIFT
+// NULLFIELD / 02 — ORBIT DRIFT
 // Controls: Space pauses, R regenerates, S saves a PNG.
 
 let bodies = [];

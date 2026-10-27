@@ -1,4 +1,4 @@
-// CYFER / 03 — NOISE MATRIX
+// NULLFIELD / 03 — NOISE MATRIX
 // Controls: R regenerates, S saves a PNG.
 
 let seed = 1;
