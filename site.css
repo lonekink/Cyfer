@@ -1,0 +1,48 @@
+:root {
+  color-scheme: dark;
+  --bg: #101010;
+  --fg: #efeee9;
+  --muted: #858580;
+  --line: #353530;
+  --accent: #d6ff38;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+.topbar {
+  height: 76px; padding: 0 5vw; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid var(--line);
+}
+.wordmark { font-weight: 800; letter-spacing: -.07em; font-size: 1.2rem; }
+.wordmark span { color: var(--accent); font-size: .6rem; vertical-align: top; margin-left: 3px; }
+.eyebrow, .kind, .number, footer {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  letter-spacing: .08em; font-size: .68rem;
+}
+.eyebrow, .kind, .number { color: var(--muted); }
+main { max-width: 1120px; margin: 0 auto; padding: 0 5vw; }
+.intro { padding: clamp(70px, 12vw, 150px) 0 80px; }
+h1 { font-size: clamp(4rem, 11vw, 9rem); line-height: .82; letter-spacing: -.09em; margin: 25px 0 32px; font-weight: 700; }
+h1 em { color: var(--accent); font-style: normal; }
+.summary { max-width: 370px; color: #b1b1aa; font-size: 1rem; line-height: 1.6; }
+.experiments { border-top: 1px solid var(--line); }
+.experiment {
+  display: grid; grid-template-columns: 60px 1fr minmax(120px, 220px) 24px;
+  gap: 15px; align-items: center; min-height: 84px;
+  border-bottom: 1px solid var(--line); transition: padding .2s, color .2s;
+}
+.experiment:hover { padding: 0 12px; color: var(--accent); }
+.name { font-size: clamp(1rem, 2.4vw, 1.5rem); font-weight: 650; letter-spacing: -.04em; }
+.arrow { font-size: 1.25rem; text-align: right; }
+footer { display: flex; justify-content: space-between; color: var(--muted); padding: 35px 0 45px; }
+@media (max-width: 600px) {
+  .topbar { height: 64px; }
+  .topbar .eyebrow { max-width: 130px; text-align: right; line-height: 1.5; }
+  .experiment { grid-template-columns: 30px 1fr 20px; }
+  .kind { display: none; }
+}
