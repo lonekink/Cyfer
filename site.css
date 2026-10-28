@@ -17,18 +17,18 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- TOPBAR ---------- */
 .topbar {
-  height: clamp(64px, 6vw, 96px);
-  padding: 0 clamp(20px, 5vw, 80px);
+  height: clamp(64px, 6vw, 110px);
+  padding: 0 clamp(20px, 5vw, 120px);
   display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--line);
 }
 .wordmark {
   font-weight: 800; letter-spacing: -.07em;
-  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+  font-size: clamp(1.2rem, 1.4vw, 2rem);
 }
 .wordmark span {
   color: var(--accent);
-  font-size: clamp(.55rem, .7vw, .75rem);
+  font-size: clamp(.55rem, .65vw, .9rem);
   vertical-align: top; margin-left: 3px;
 }
 
@@ -36,34 +36,35 @@ a { color: inherit; text-decoration: none; }
 .eyebrow, .kind, .number, footer {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   letter-spacing: .08em;
-  font-size: clamp(.62rem, .7vw, .8rem);
+  font-size: clamp(.62rem, .68vw, 1rem);
 }
 .eyebrow, .kind, .number { color: var(--muted); }
 
 /* ---------- MAIN ---------- */
 main {
-  max-width: clamp(1120px, 92vw, 1440px);
+  /* breaks out of the old 1440px box — up to 2200px on ultrawide */
+  max-width: clamp(1120px, 92vw, 2200px);
   margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 80px);
+  padding: 0 clamp(20px, 5vw, 120px);
 }
 .intro {
-  padding: clamp(70px, 10vw, 170px) 0 clamp(60px, 6vw, 110px);
+  padding: clamp(70px, 9vw, 200px) 0 clamp(60px, 6vw, 130px);
 }
 
 /* ---------- HEADLINE ---------- */
 h1 {
-  font-size: clamp(4rem, 10vw, 12rem);
-  line-height: .82;
+  font-size: clamp(4rem, 11vw, 20rem);
+  line-height: .8;
   letter-spacing: -.09em;
-  margin: clamp(20px, 2vw, 32px) 0 clamp(28px, 3vw, 44px);
+  margin: clamp(20px, 2vw, 40px) 0 clamp(28px, 3vw, 56px);
   font-weight: 700;
 }
 h1 em { color: var(--accent); font-style: normal; }
 
 .summary {
-  max-width: clamp(340px, 30vw, 460px);
+  max-width: clamp(340px, 28vw, 620px);
   color: #b1b1aa;
-  font-size: clamp(1rem, 1.15vw, 1.25rem);
+  font-size: clamp(1rem, 1.1vw, 1.5rem);
   line-height: 1.6;
 }
 
@@ -71,21 +72,21 @@ h1 em { color: var(--accent); font-style: normal; }
 .experiments { border-top: 1px solid var(--line); }
 .experiment {
   display: grid;
-  grid-template-columns: clamp(48px, 5vw, 80px) 1fr minmax(120px, 240px) 24px;
-  gap: clamp(12px, 1.6vw, 24px);
+  grid-template-columns: clamp(48px, 5vw, 110px) 1fr minmax(140px, 320px) 32px;
+  gap: clamp(12px, 1.6vw, 32px);
   align-items: center;
-  min-height: clamp(84px, 7vw, 120px);
+  min-height: clamp(84px, 7vw, 160px);
   border-bottom: 1px solid var(--line);
   transition: padding .2s, color .2s;
 }
-.experiment:hover { padding: 0 12px; color: var(--accent); }
+.experiment:hover { padding: 0 16px; color: var(--accent); }
 .name {
-  font-size: clamp(1rem, 2.2vw, 2rem);
+  font-size: clamp(1rem, 2vw, 2.6rem);
   font-weight: 650;
   letter-spacing: -.04em;
 }
 .arrow {
-  font-size: clamp(1.15rem, 1.4vw, 1.5rem);
+  font-size: clamp(1.15rem, 1.4vw, 2rem);
   text-align: right;
 }
 
@@ -93,14 +94,27 @@ h1 em { color: var(--accent); font-style: normal; }
 footer {
   display: flex; justify-content: space-between;
   color: var(--muted);
-  padding: clamp(30px, 3vw, 55px) 0 clamp(40px, 4vw, 70px);
+  padding: clamp(30px, 3vw, 70px) 0 clamp(40px, 4vw, 90px);
 }
 
-/* ---------- ULTRAWIDE ---------- */
+/* ---------- WIDE / ULTRAWIDE PUSH ---------- */
 @media (min-width: 1600px) {
-  main { max-width: 1600px; }
-  h1   { font-size: clamp(10rem, 11vw, 15rem); }
-  .name{ font-size: clamp(1.6rem, 1.9vw, 2.4rem); }
+  main { max-width: 1800px; }
+}
+
+@media (min-width: 2000px) {
+  main { max-width: 2200px; }
+  h1   { font-size: clamp(14rem, 11vw, 24rem); }
+  .name{ font-size: clamp(2rem, 1.6vw, 3rem); }
+  .experiment { min-height: clamp(140px, 7vw, 200px); }
+}
+
+@media (min-width: 2800px) {
+  main { max-width: 2600px; padding: 0 clamp(60px, 5vw, 160px); }
+  h1   { font-size: clamp(18rem, 11vw, 30rem); }
+  .summary { max-width: 760px; font-size: 1.6rem; }
+  .name    { font-size: clamp(2.4rem, 1.6vw, 3.6rem); }
+  .experiment { min-height: clamp(160px, 7vw, 240px); }
 }
 
 /* ---------- MOBILE ---------- */
