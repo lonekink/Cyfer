@@ -8,19 +8,29 @@
 }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
+
+/* ---------- BODY ---------- */
 body {
   margin: 0; background: var(--bg); color: var(--fg);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 a { color: inherit; text-decoration: none; }
 
-/* ---------- TOPBAR ---------- */
+/* ---------- TOPBAR: full-bleed line, aligned content ---------- */
 .topbar {
   height: clamp(64px, 6vw, 110px);
+  flex-shrink: 0;
+}
+.topbar-inner {
+  height: 100%;
+  max-width: clamp(1120px, 92vw, 2200px);
+  margin: 0 auto;
   padding: 0 clamp(20px, 5vw, 120px);
   display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--line);
 }
 .wordmark {
   font-weight: 800; letter-spacing: -.07em;
@@ -42,13 +52,20 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- MAIN ---------- */
 main {
-  /* breaks out of the old 1440px box — up to 2200px on ultrawide */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
   max-width: clamp(1120px, 92vw, 2200px);
   margin: 0 auto;
   padding: 0 clamp(20px, 5vw, 120px);
 }
+main > * { flex-shrink: 0; }
+
+/* ---------- INTRO ---------- */
 .intro {
-  padding: clamp(70px, 9vw, 200px) 0 clamp(60px, 6vw, 130px);
+  padding: clamp(50px, 6vw, 120px) 0 clamp(40px, 4vw, 80px);
 }
 
 /* ---------- HEADLINE ---------- */
@@ -94,27 +111,46 @@ h1 em { color: var(--accent); font-style: normal; }
 footer {
   display: flex; justify-content: space-between;
   color: var(--muted);
-  padding: clamp(30px, 3vw, 70px) 0 clamp(40px, 4vw, 90px);
+  flex-shrink: 0;
+  width: 100%;
+  max-width: clamp(1120px, 92vw, 2200px);
+  margin: 0 auto;
+  padding: clamp(30px, 3vw, 70px) clamp(20px, 5vw, 120px) clamp(40px, 4vw, 90px);
 }
 
-/* ---------- WIDE / ULTRAWIDE PUSH ---------- */
+/* ---------- WIDE / ULTRAWIDE ---------- */
 @media (min-width: 1600px) {
-  main { max-width: 1800px; }
+  main, .topbar-inner, footer { max-width: 1800px; }
+
+  .experiment {
+    min-height: clamp(64px, 4.5vw, 96px);
+    grid-template-columns: clamp(40px, 4vw, 80px) 1fr minmax(120px, 240px) 28px;
+    gap: clamp(10px, 1.2vw, 20px);
+  }
+  .name  { font-size: clamp(.95rem, 1.4vw, 1.5rem); }
+  .arrow { font-size: clamp(1rem, 1.1vw, 1.3rem); }
 }
 
 @media (min-width: 2000px) {
-  main { max-width: 2200px; }
+  main, .topbar-inner, footer { max-width: 2200px; }
   h1   { font-size: clamp(14rem, 11vw, 24rem); }
-  .name{ font-size: clamp(2rem, 1.6vw, 3rem); }
-  .experiment { min-height: clamp(140px, 7vw, 200px); }
+
+  .experiment { min-height: clamp(60px, 3.8vw, 84px); }
+  .name       { font-size: clamp(.9rem, 1.2vw, 1.3rem); }
+  .kind       { font-size: clamp(.58rem, .62vw, .8rem); }
 }
 
 @media (min-width: 2800px) {
-  main { max-width: 2600px; padding: 0 clamp(60px, 5vw, 160px); }
+  main, .topbar-inner, footer {
+    max-width: 2600px;
+    padding-left: clamp(60px, 5vw, 160px);
+    padding-right: clamp(60px, 5vw, 160px);
+  }
   h1   { font-size: clamp(18rem, 11vw, 30rem); }
   .summary { max-width: 760px; font-size: 1.6rem; }
-  .name    { font-size: clamp(2.4rem, 1.6vw, 3.6rem); }
-  .experiment { min-height: clamp(160px, 7vw, 240px); }
+
+  .experiment { min-height: clamp(56px, 3.2vw, 72px); }
+  .name       { font-size: clamp(.9rem, 1.1vw, 1.2rem); }
 }
 
 /* ---------- MOBILE ---------- */
