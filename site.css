@@ -120,11 +120,11 @@ h1 em { color: var(--accent); font-style: normal; }
 
 /* Fixed: Added the ultra-thin dash separator */
 .slash {
-  font-weight: 100;           /* Thinnest weight */
+  font-weight: 200;           /* Thinnest weight */
   color: var(--muted);        /* Muted color */
-  font-size: 0.85em;          /* Slightly smaller */
+  font-size: 1em;          /* Slightly smaller */
   opacity: 0.5;               /* Visual weight drop */
-  margin: 0 0.15em;           /* Breathing room */
+  margin: 0 0.5em;           /* Breathing room */
   display: inline-block;      
 }
 
