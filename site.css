@@ -24,7 +24,6 @@ a { color: inherit; text-decoration: none; }
 .topbar {
   height: clamp(64px, 6vw, 110px);
   flex-shrink: 0;
-  border-bottom: 1px solid var(--line);
 }
 .topbar-inner {
   height: 100%;
