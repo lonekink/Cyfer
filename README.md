@@ -9,6 +9,7 @@ Small p5.js experiments built around motion, repetition, randomness, and emergen
 - `01-flow/` — turbulent line fields and current-like motion
 - `02-orbit/` — orbital systems and shifting geometry
 - `03-grid/` — noisy grids and modular marks
+- `04-surface/` — topological surface deformation and polygon mesh
 
 ## Run locally
 
