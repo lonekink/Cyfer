@@ -9,11 +9,15 @@ let quads = [];
 // =====================================================
 
 function setup() {
-  // Use standard canvas so 'S' saves a PNG easily
-  createCanvas(windowWidth, windowHeight);
+  // Original fixed SVG canvas structure
+  createCanvas(1600, 1022, SVG);
   pixelDensity(1);
   createComposition();
 }
+
+// =====================================================
+// CREATE NEW COMPOSITION
+// =====================================================
 
 function createComposition() {
   compositionSeed = floor(random(100000000));
@@ -26,8 +30,8 @@ function createComposition() {
 // =====================================================
 
 function draw() {
-  // Dark background matching your --bg variable
-  background('#101010'); 
+  // Original soft, warm cartographic paper background
+  background('#F2F2EC'); 
 
   generateMesh();
   drawMesh();
@@ -41,12 +45,8 @@ function generateMesh() {
   quads = [];
   let pts = [];
   
-  // Subtle wave motion for the macro structure only
-  let time = frameCount * 0.005; 
-
-  // Scale maps to fill the screen and go beyond the edges
-  let xScale = width * 0.95; 
-  let zScale = width * 0.6;
+  // Very slow tectonic drift
+let time = frameCount * 0.008; 
 
   // 1. GENERATE THE 3D VERTICES
   for (let i = 0; i < cols; i++) {
@@ -56,31 +56,31 @@ function generateMesh() {
     for (let j = 0; j < rows; j++) {
       let v = j / (rows - 1); 
 
-      // Push X and Z so it bleeds off the edges
-      let x = map(u, 0, 1, -xScale, xScale);
-      let widthPinch = 1.0 - abs(u - 0.5) * 0.3;
-      let z = map(v, 0, 1, -zScale, zScale) * widthPinch;
+      // Original bounds
+      let x = map(u, 0, 1, -1800, 1800);
+      let widthPinch = 1.0 - abs(u - 0.5) * 0.4;
+      let z = map(v, 0, 1, -350 * widthPinch, 350 * widthPinch);
 
-      // MACRO STRUCTURE: Flowing sine wave (Very slow, like tectonic shifting)
+      // MACRO STRUCTURE: Gentle rolling wave
       let y = sin(u * PI * 2.5 + compositionSeed - time) * 300;
 
-      // TWIST: The ribbon banks and folds
+      // TWIST
       let twist = cos(u * PI * 1.5 + compositionSeed - time * 0.5) * map(v, 0, 1, -250, 250);
       y += twist;
 
-      // TOPOGRAPHY / ROCKY WAVES
+      // TOPOGRAPHY / ROCKY MOUNTAINS
       let nx = x * 0.001;
       let nz = z * 0.001;
       let elevation = 0;
-      let amp = 280; // Higher amplitude for taller mountains
-      let freq = 1.2;
+      let amp = 300; 
+      let freq = 1.0;
 
       for (let o = 0; o < 3; o++) {
-        // NO TIME IN NOISE: This makes the rock static. 
-        // The '1.0 - abs(...)' trick creates sharp ridges instead of soft hills.
-        let n = noise(nx * freq + compositionSeed, nz * freq + compositionSeed);
+        // Removed 'time' from noise to make rock static
+      let n = noise(nx * freq + compositionSeed, nz * freq + compositionSeed, time * 0.15);        
+        // Sharpened jagged peaks
         n = 1.0 - abs(2.0 * n - 1.0); 
-        n = pow(n, 2.0); // Sharpen the peaks
+        n = pow(n, 2.5); 
         
         elevation += n * amp;
         amp *= 0.45;
@@ -125,13 +125,13 @@ function project3D(x, y, z) {
   let y2 = y * cos(rotX) - z1 * sin(rotX);
   let z2 = y * sin(rotX) + z1 * cos(rotX);
 
-  // Bring the fov down and camera closer to make it massive on screen
-  let fov = 1200; 
-  let scale = fov / (fov + z2 + 400);
+  // Original camera settings
+  let fov = 2000;
+  let scale = fov / (fov + z2 + 800);
 
-  // Centered vertically, slightly offset so it bleeds top and bottom
+  // Original offsets
   let px = x1 * scale + width / 2;
-  let py = y2 * scale + height / 2 + 50; 
+  let py = y2 * scale + height / 2 + 150; 
 
   return { x: px, y: py, z: z2 };
 }
@@ -141,11 +141,8 @@ function project3D(x, y, z) {
 // =====================================================
 
 function drawMesh() {
-  // Dark fill to hide background quads
-  fill('#101010'); 
-  
-  // Use your site's white/grey text color for the lines
-  stroke(239, 238, 233, 180); 
+  fill('#F2F2EC'); 
+  stroke(30, 30, 30, 220); 
   strokeWeight(0.65); 
 
   for (let i = 0; i < quads.length; i++) {
@@ -169,40 +166,23 @@ function keyPressed() {
     createComposition();
   }
 
+  // S saves standard PNG (as requested for the other sketches)
   if (key === 's' || key === 'S') {
     saveCanvas('04-mesh-topology', 'png');
   }
 
+  // Secret Z saves SVG (original format)
   if (key === 'z' || key === 'Z') {
-    saveVector();
+    let svg = document.querySelector('svg');
+    let serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svg);
+    let blob = new Blob([source], { type: 'image/svg+xml' });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
+
+    a.href = url;
+    a.download = '04-mesh-topology.svg'; 
+    a.click();
+    URL.revokeObjectURL(url);
   }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-// =====================================================
-// SECRET SVG EXPORT
-// =====================================================
-function saveVector() {
-  // Create an offscreen SVG canvas
-  let s = createGraphics(width, height, SVG);
-  
-  s.fill('#101010');
-  s.stroke(239, 238, 233);
-  s.strokeWeight(0.65);
-
-  for (let i = 0; i < quads.length; i++) {
-    let q = quads[i];
-    s.beginShape();
-    s.vertex(q.p1.x, q.p1.y);
-    s.vertex(q.p2.x, q.p2.y);
-    s.vertex(q.p3.x, q.p3.y);
-    s.vertex(q.p4.x, q.p4.y);
-    s.endShape(CLOSE);
-  }
-  
-  save(s, '04-mesh-topology.svg');
-  s.remove();
 }
