@@ -43,6 +43,9 @@ Open the root `index.html` for the experiment index, or open an experiment's `in
 - Plain HTML, CSS, and JavaScript
 - No build step or dependencies to install
 
+## Demo
+https://lonekink.github.io/Cyfer/
+
 ## License
 
 MIT. See `LICENSE`.
