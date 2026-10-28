@@ -12,8 +12,7 @@ html { background: var(--bg); }
 /* ---------- BODY ---------- */
 body {
   margin: 0; background: var(--bg); color: var(--fg);
-  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  min-height: 100vh;
+font-family: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
