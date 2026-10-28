@@ -115,7 +115,7 @@ footer {
   width: 100%;
   max-width: clamp(1120px, 92vw, 2200px);
   margin: 0 auto;
-  padding: clamp(30px, 3vw, 70px) clamp(20px, 5vw, 120px) clamp(40px, 4vw, 90px);
+  padding: clamp(30px, 3vw, 70px) 0 clamp(40px, 4vw, 90px);
 }
 
 /* ---------- WIDE / ULTRAWIDE ---------- */
