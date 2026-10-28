@@ -85,12 +85,12 @@ h1 em { color: var(--accent); font-style: normal; }
 
 .summary {
   max-width: clamp(340px, 28vw, 620px);
-  color: var(--accent);
-  opacity: 0.85; /* Optional: softens the glow slightly */
-  font-size: clamp(1rem, 1.1vw, 1.5rem);
-  font-weight: 100;
-  line-height: 1.7;
-  letter-spacing: 0.015em;
+  color: var(--accent);      
+  font-family: "Barlow", "Helvetica Neue", sans-serif; /* <-- Added Barlow */
+  font-size: clamp(1.1rem, 1.2vw, 1.6rem); /* Slightly bumped size since Barlow 100 is very delicate */
+  font-weight: 100;          
+  line-height: 1.6;          
+  letter-spacing: 0.02em;    /* <-- Tiny bit more tracking for legibility */
 }
 
 /* ---------- EXPERIMENT LIST ---------- */
@@ -108,9 +108,10 @@ h1 em { color: var(--accent); font-style: normal; }
 
 /* Fixed: Re-added the .name class and heavy font */
 .name {
-  font-size: clamp(1.1rem, 2.2vw, 2.8rem); 
-  font-weight: 700;               /* Heavy font */
-  letter-spacing: 0.1em;          /* Wide tracking */
+  font-family: "Barlow", "Helvetica Neue", sans-serif; /* <-- Added Barlow */
+  font-size: clamp(1.2rem, 2.4vw, 3rem); 
+  font-weight: 700;               
+  letter-spacing: 0.1em;          
   text-transform: uppercase;      
   color: var(--fg);               
   width: 100%;                    
