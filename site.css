@@ -77,7 +77,7 @@ main > * { flex-shrink: 0; }
 h1 {
   font-size: clamp(4rem, 11vw, 20rem);
   line-height: .8;
-  letter-spacing: -.05em;
+  letter-spacing: -.052em;
   margin: clamp(20px, 2vw, 40px) 0 clamp(28px, 3vw, 56px);
   font-weight: 700;
 }
