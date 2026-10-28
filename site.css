@@ -85,7 +85,8 @@ h1 em { color: var(--accent); font-style: normal; }
 
 .summary {
   max-width: clamp(340px, 28vw, 620px);
-  color: #d1d1cb;
+  color: var(--accent);
+  opacity: 0.85; /* Optional: softens the glow slightly */
   font-size: clamp(1rem, 1.1vw, 1.5rem);
   font-weight: 100;
   line-height: 1.7;
