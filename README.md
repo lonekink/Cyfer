@@ -1,4 +1,4 @@
-# CYFER
+# CYFE[R]
 
 **A lab for generative forms, procedural systems, and visual noise.**
 
