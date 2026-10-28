@@ -33,13 +33,18 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: space-between;
 }
 .wordmark {
-  font-weight: 800; letter-spacing: -.07em;
-  font-size: clamp(1.2rem, 1.4vw, 2rem);
+  display: inline-flex;
+  align-items: center;
+  color: var(--fg); 
+  transition: color .2s ease;
 }
-.wordmark span {
+.wordmark svg {
+  display: block;
+  height: clamp(24px, 2.2vw, 42px); 
+  width: auto;
+}
+.wordmark:hover {
   color: var(--accent);
-  font-size: clamp(.55rem, .65vw, .9rem);
-  vertical-align: top; margin-left: 3px;
 }
 
 /* ---------- MONO MICRO-TYPE ---------- */
