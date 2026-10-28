@@ -86,7 +86,9 @@ h1 em { color: var(--accent); font-style: normal; }
   max-width: clamp(340px, 28vw, 620px);
   color: #b1b1aa;
   font-size: clamp(1rem, 1.1vw, 1.5rem);
-  line-height: 1.6;
+  font-weight: 300;           /* <-- Makes the text thinner */
+  line-height: 1.65;          /* <-- Slightly more breathing room */
+  letter-spacing: 0.01em;     /* <-- Optional: a tiny bit of tracking helps thin text on dark mode */
 }
 
 /* ---------- EXPERIMENT LIST ---------- */
