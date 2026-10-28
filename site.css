@@ -84,13 +84,13 @@ h1 {
 h1 em { color: var(--accent); font-style: normal; }
 
 .summary {
-  max-width: clamp(340px, 28vw, 620px);
+  max-width: clamp(360px, 32vw, 680px); /* Widened slightly to accommodate larger text */
   color: var(--accent);      
-  font-family: "Barlow", "Helvetica Neue", sans-serif; /* <-- Added Barlow */
-  font-size: clamp(1.1rem, 1.2vw, 1.6rem); /* Slightly bumped size since Barlow 100 is very delicate */
+  font-family: "Barlow", "Helvetica Neue", sans-serif; 
+  font-size: clamp(1.25rem, 1.4vw, 1.85rem); /* <-- INCREASED (was 1.1 to 1.6) */
   font-weight: 100;          
   line-height: 1.6;          
-  letter-spacing: 0.02em;    /* <-- Tiny bit more tracking for legibility */
+  letter-spacing: 0.02em;    
 }
 
 /* ---------- EXPERIMENT LIST ---------- */
@@ -108,8 +108,8 @@ h1 em { color: var(--accent); font-style: normal; }
 
 /* Fixed: Re-added the .name class and heavy font */
 .name {
-  font-family: "Barlow", "Helvetica Neue", sans-serif; /* <-- Added Barlow */
-  font-size: clamp(1.2rem, 2.4vw, 3rem); 
+  font-family: "Barlow", "Helvetica Neue", sans-serif; 
+  font-size: clamp(1.4rem, 2.6vw, 3.4rem); /* <-- INCREASED (was 1.2 to 3) */
   font-weight: 700;               
   letter-spacing: 0.1em;          
   text-transform: uppercase;      
@@ -160,7 +160,7 @@ footer {
     grid-template-columns: clamp(40px, 4vw, 80px) 1fr minmax(120px, 240px) 28px;
     gap: clamp(10px, 1.2vw, 20px);
   }
-  .name  { font-size: clamp(.95rem, 1.4vw, 1.5rem); }
+  .name  { font-size: clamp(1.5rem, 1.8vw, 2.2rem); } /* <-- Bumped up */
   .arrow { font-size: clamp(1rem, 1.1vw, 1.3rem); }
 }
 
@@ -169,7 +169,7 @@ footer {
   h1   { font-size: clamp(14rem, 11vw, 24rem); }
 
   .experiment { min-height: clamp(60px, 3.8vw, 84px); }
-  .name       { font-size: clamp(.9rem, 1.2vw, 1.3rem); }
+  .name       { font-size: clamp(1.6rem, 1.5vw, 2.4rem); } /* <-- Bumped up */
   .kind       { font-size: clamp(.58rem, .62vw, .8rem); }
 }
 
@@ -182,10 +182,9 @@ footer {
   footer { max-width: 2600px; }
   
   h1   { font-size: clamp(18rem, 11vw, 30rem); }
-  .summary { max-width: 760px; font-size: 1.6rem; }
-
+  .summary { max-width: 820px; font-size: 2rem; } /* <-- Bumped up */
+  .name       { font-size: clamp(1.8rem, 1.3vw, 2.6rem); } /* <-- Bumped up */
   .experiment { min-height: clamp(56px, 3.2vw, 72px); }
-  .name       { font-size: clamp(.9rem, 1.1vw, 1.2rem); }
 }
 
 /* ---------- MOBILE ---------- */
@@ -194,13 +193,12 @@ footer {
   .topbar .eyebrow { max-width: 130px; text-align: right; line-height: 1.5; }
   .experiment { grid-template-columns: 30px 1fr 20px; }
   .kind { display: none; }
-  .summary{
-  font-weight: 300;
-  opacity: 1; 
-
+  .summary {
+    font-size: 1.15rem; /* <-- Added so the summary grows on mobile too */
   }
+}
   .name {
-    font-size: 0.95rem;
-    letter-spacing: 0.05em;
+    font-size: 1.15rem; /* <-- Increased from 0.95rem */
+    letter-spacing: 0.06em; /* <-- Slightly increased to balance the heavier font */
   }
 }
