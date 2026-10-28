@@ -141,11 +141,13 @@ footer {
 }
 
 @media (min-width: 2800px) {
-  main, .topbar-inner, footer {
+  main, .topbar-inner {
     max-width: 2600px;
     padding-left: clamp(60px, 5vw, 160px);
     padding-right: clamp(60px, 5vw, 160px);
   }
+  footer {
+    max-width: 2600px;}
   h1   { font-size: clamp(18rem, 11vw, 30rem); }
   .summary { max-width: 760px; font-size: 1.6rem; }
 
