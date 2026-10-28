@@ -12,7 +12,8 @@ html { background: var(--bg); }
 /* ---------- BODY ---------- */
 body {
   margin: 0; background: var(--bg); color: var(--fg);
-font-family: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;  min-height: 100vh;
+  font-family: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;  
+  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -23,6 +24,7 @@ a { color: inherit; text-decoration: none; }
 .topbar {
   height: clamp(64px, 6vw, 110px);
   flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
 }
 .topbar-inner {
   height: 100%;
@@ -48,7 +50,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- MONO MICRO-TYPE ---------- */
 .eyebrow, .kind, .number, footer {
- font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .08em;
   font-size: clamp(.62rem, .68vw, 1rem);
 }
@@ -84,11 +86,11 @@ h1 em { color: var(--accent); font-style: normal; }
 
 .summary {
   max-width: clamp(340px, 28vw, 620px);
-  color: #d1d1cb;            /* <-- Brightened slightly so the 100-weight doesn't disappear on dark screens */
+  color: #d1d1cb;
   font-size: clamp(1rem, 1.1vw, 1.5rem);
-  font-weight: 100;          /* <-- The thinnest possible weight */
-  line-height: 1.7;          /* <-- Extra height for thin text */
-  letter-spacing: 0.015em;   /* <-- Tiny bit of tracking to keep it legible */
+  font-weight: 100;
+  line-height: 1.7;
+  letter-spacing: 0.015em;
 }
 
 /* ---------- EXPERIMENT LIST ---------- */
@@ -103,22 +105,35 @@ h1 em { color: var(--accent); font-style: normal; }
   transition: padding .2s, color .2s;
 }
 .experiment:hover { padding: 0 16px; color: var(--accent); }
-  /* Make it large and thin to match the aesthetic */
+
+/* Fixed: Re-added the .name class and heavy font */
+.name {
   font-size: clamp(1.1rem, 2.2vw, 2.8rem); 
-  font-weight: 100;               /* Thinnest weight */
+  font-weight: 700;               /* Heavy font */
   letter-spacing: 0.1em;          /* Wide tracking */
-  text-transform: uppercase;      /* Uppercase reads better with wide tracking */
-  
-  /* Make it stand out */
-  color: var(--fg);               /* Bright white (rather than the muted gray) */
-  
-  /* Ensure it takes up maximum available width */
+  text-transform: uppercase;      
+  color: var(--fg);               
   width: 100%;                    
   display: block;                 
   white-space: nowrap;            
-  
-  /* Smooth transition for hover */
   transition: color .2s, letter-spacing .3s;
+}
+
+/* Fixed: Added the ultra-thin dash separator */
+.slash {
+  font-weight: 100;           /* Thinnest weight */
+  color: var(--muted);        /* Muted color */
+  font-size: 0.85em;          /* Slightly smaller */
+  opacity: 0.5;               /* Visual weight drop */
+  margin: 0 0.15em;           /* Breathing room */
+  display: inline-block;      
+}
+
+.experiment:hover .slash {
+  color: var(--accent);
+  opacity: 1;
+}
+
 .arrow {
   font-size: clamp(1.15rem, 1.4vw, 2rem);
   text-align: right;
@@ -163,8 +178,8 @@ footer {
     padding-left: clamp(60px, 5vw, 160px);
     padding-right: clamp(60px, 5vw, 160px);
   }
-  footer {
-    max-width: 2600px;}
+  footer { max-width: 2600px; }
+  
   h1   { font-size: clamp(18rem, 11vw, 30rem); }
   .summary { max-width: 760px; font-size: 1.6rem; }
 
@@ -179,7 +194,7 @@ footer {
   .experiment { grid-template-columns: 30px 1fr 20px; }
   .kind { display: none; }
   .name {
-  font-size: 1rem;
-  letter-spacing: 0.05em;
-}
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+  }
 }
