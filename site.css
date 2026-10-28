@@ -94,7 +94,9 @@ h1 em { color: var(--accent); font-style: normal; }
 }
 
 /* ---------- EXPERIMENT LIST ---------- */
-.experiments { border-top: 1px solid var(--line); }
+.experiments { border-top: 1px solid var(--line);
+               padding-bottom: clamp(40px, 6vw, 100px); /* <-- Added bottom padding */
+}
 .experiment {
   display: grid;
   grid-template-columns: clamp(48px, 5vw, 110px) 1fr minmax(140px, 320px) 32px;
