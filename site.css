@@ -103,11 +103,22 @@ h1 em { color: var(--accent); font-style: normal; }
   transition: padding .2s, color .2s;
 }
 .experiment:hover { padding: 0 16px; color: var(--accent); }
-.name {
-  font-size: clamp(1rem, 2vw, 2.6rem);
-  font-weight: 650;
-  letter-spacing: -.04em;
-}
+  /* Make it large and thin to match the aesthetic */
+  font-size: clamp(1.1rem, 2.2vw, 2.8rem); 
+  font-weight: 100;               /* Thinnest weight */
+  letter-spacing: 0.1em;          /* Wide tracking */
+  text-transform: uppercase;      /* Uppercase reads better with wide tracking */
+  
+  /* Make it stand out */
+  color: var(--fg);               /* Bright white (rather than the muted gray) */
+  
+  /* Ensure it takes up maximum available width */
+  width: 100%;                    
+  display: block;                 
+  white-space: nowrap;            
+  
+  /* Smooth transition for hover */
+  transition: color .2s, letter-spacing .3s;
 .arrow {
   font-size: clamp(1.15rem, 1.4vw, 2rem);
   text-align: right;
@@ -167,4 +178,8 @@ footer {
   .topbar .eyebrow { max-width: 130px; text-align: right; line-height: 1.5; }
   .experiment { grid-template-columns: 30px 1fr 20px; }
   .kind { display: none; }
+  .name {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
 }
