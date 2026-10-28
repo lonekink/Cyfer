@@ -84,11 +84,11 @@ h1 em { color: var(--accent); font-style: normal; }
 
 .summary {
   max-width: clamp(340px, 28vw, 620px);
-  color: #b1b1aa;
+  color: #d1d1cb;            /* <-- Brightened slightly so the 100-weight doesn't disappear on dark screens */
   font-size: clamp(1rem, 1.1vw, 1.5rem);
-  font-weight: 300;           /* <-- Makes the text thinner */
-  line-height: 1.65;          /* <-- Slightly more breathing room */
-  letter-spacing: 0.01em;     /* <-- Optional: a tiny bit of tracking helps thin text on dark mode */
+  font-weight: 100;          /* <-- The thinnest possible weight */
+  line-height: 1.7;          /* <-- Extra height for thin text */
+  letter-spacing: 0.015em;   /* <-- Tiny bit of tracking to keep it legible */
 }
 
 /* ---------- EXPERIMENT LIST ---------- */
