@@ -70,7 +70,7 @@ main > * { flex-shrink: 0; }
 
 /* ---------- INTRO ---------- */
 .intro {
-  padding: clamp(50px, 6vw, 120px) 0 clamp(40px, 4vw, 80px);
+  padding: 0 0 clamp(40px, 4vw, 80px);
 }
 
 /* ---------- HEADLINE ---------- */
