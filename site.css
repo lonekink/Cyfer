@@ -89,7 +89,7 @@ h1 em { color: var(--accent); font-style: normal; }
   font-family: "Barlow", "Helvetica Neue", sans-serif; 
   font-size: clamp(1.25rem, 1.4vw, 1.85rem); /* <-- INCREASED (was 1.1 to 1.6) */
   font-weight: 100;          
-  line-height: 1.6;          
+  line-height: 1.2;          
   letter-spacing: 0.02em;    
 }
 
