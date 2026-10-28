@@ -193,6 +193,10 @@ footer {
   .topbar .eyebrow { max-width: 130px; text-align: right; line-height: 1.5; }
   .experiment { grid-template-columns: 30px 1fr 20px; }
   .kind { display: none; }
+  .summary{
+      font-weight: 300;
+
+  }
   .name {
     font-size: 0.95rem;
     letter-spacing: 0.05em;
