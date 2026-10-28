@@ -3,7 +3,7 @@
 html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #101010; color: #efeee9; }
 canvas { display: block; }
 .back, .label {
-  position: fixed; z-index: 2; font: 11px/1.4 "SFMono-Regular", Consolas, monospace;
+  position: fixed; z-index: 2;   font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; 
   letter-spacing: .08em; text-transform: uppercase;
 }
 .back { top: 22px; left: 24px; color: #efeee9; text-decoration: none; }
