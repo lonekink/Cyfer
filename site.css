@@ -138,6 +138,7 @@ h1 em { color: var(--accent); font-style: normal; }
 }
 
 .arrow {
+  font-family: "JetBrains Mono", "DM Sans", sans-serif; /* <-- Forces a clean, non-emoji font */
   font-size: clamp(1.15rem, 1.4vw, 2rem);
   text-align: right;
 }
