@@ -13,6 +13,7 @@ function setup() {
 createCanvas(windowWidth, windowHeight, SVG);
   pixelDensity(1);
   createComposition();
+  noLoop();
 }
 
 // =====================================================
@@ -148,12 +149,8 @@ fill('#101010');
   for (let i = 0; i < quads.length; i++) {
     let q = quads[i];
     
-    beginShape();
-    vertex(q.p1.x, q.p1.y);
-    vertex(q.p2.x, q.p2.y);
-    vertex(q.p3.x, q.p3.y);
-    vertex(q.p4.x, q.p4.y);
-    endShape(CLOSE);
+    quad(q.p1.x, q.p1.y, q.p2.x, q.p2.y, q.p3.x, q.p3.y, q.p4.x, q.p4.y);
+
   }
 }
 
