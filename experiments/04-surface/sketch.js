@@ -162,24 +162,52 @@ function keyPressed() {
     createComposition();
   }
 
-  // S saves standard PNG (as requested for the other sketches)
+  // S saves a PNG (by taking a screenshot of the SVG using the browser)
   if (key === 's' || key === 'S') {
-    saveCanvas('04-mesh-topology', 'png');
+    let svgElement = document.querySelector('svg');
+    if (svgElement) {
+      // Create an image from the SVG data
+      let svgData = new XMLSerializer().serializeToString(svgElement);
+      let img = new Image();
+      let svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      let url = URL.createObjectURL(svgBlob);
+      
+      img.onload = function() {
+        // Draw it to a hidden standard canvas to convert to PNG
+        let canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        
+        // Trigger the download
+        let pngUrl = canvas.toDataURL('image/png');
+        let a = document.createElement('a');
+        a.href = pngUrl;
+        a.download = '04-mesh-topology.png';
+        a.click();
+        
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    }
   }
 
-  // Secret Z saves SVG (original format)
+  // Z saves the raw SVG
   if (key === 'z' || key === 'Z') {
-    let svg = document.querySelector('svg');
-    let serializer = new XMLSerializer();
-    let source = serializer.serializeToString(svg);
-    let blob = new Blob([source], { type: 'image/svg+xml' });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
+    let svgElement = document.querySelector('svg');
+    if (svgElement) {
+      let serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svgElement);
+      let blob = new Blob([source], { type: 'image/svg+xml' });
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement('a');
 
-    a.href = url;
-    a.download = '04-mesh-topology.svg'; 
-    a.click();
-    URL.revokeObjectURL(url);
+      a.href = url;
+      a.download = '04-mesh-topology.svg'; 
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   }
 }
 
