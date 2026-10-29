@@ -74,10 +74,13 @@ function generateFlow() {
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       
-      let startX = map(i, 0, cols - 1, -0.1, 1.1); 
+     let startX = map(i, 0, cols - 1, -0.1, 1.1); 
       let startY = map(j, 0, rows - 1, -0.1, 1.1); 
 
       if (j % 2 === 0) startX += (1.0 / cols) * 0.5;
+
+      startX += random(-0.04, 0.04);
+      startY += random(-0.04, 0.04);
 
       let px = startX * width;
       let py = startY * height;
