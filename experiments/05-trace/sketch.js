@@ -279,27 +279,57 @@ function keyPressed() {
     createComposition();
   }
 
+  // S saves a PNG by taking a screenshot of the SVG
   if (key === 's' || key === 'S') {
-    saveCanvas('05-trace-route', 'png');
+    let svgElement = document.querySelector('svg');
+    if (svgElement) {
+      let svgData = new XMLSerializer().serializeToString(svgElement);
+      let img = new Image();
+      let svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      let url = URL.createObjectURL(svgBlob);
+      
+      img.onload = function() {
+        // Draw it to a hidden standard canvas to convert to PNG
+        let canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        
+        // Trigger the download
+        let pngUrl = canvas.toDataURL('image/png');
+        let a = document.createElement('a');
+        a.href = pngUrl;
+        a.download = '05-trace-route.png';
+        a.click();
+        
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    }
   }
 
+  // Z saves the raw SVG
   if (key === 'z' || key === 'Z') {
     drawFlowForExport();
 
     let svg = document.querySelector('svg');
-    let serializer = new XMLSerializer();
-    let source = serializer.serializeToString(svg);
-    let blob = new Blob([source], { type: 'image/svg+xml' });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
+    if (svg) {
+      let serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svg);
+      let blob = new Blob([source], { type: 'image/svg+xml' });
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement('a');
 
-    a.href = url;
-    a.download = '05-trace-route.svg';
-    a.click();
-    URL.revokeObjectURL(url);
-    
-    background(BG_COLOR);
-    currentAnimStep = 0;
+      a.href = url;
+      a.download = '05-trace-route.svg';
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      // Restart animation post-save
+      background(BG_COLOR);
+      currentAnimStep = 0;
+    }
   }
 }
 
