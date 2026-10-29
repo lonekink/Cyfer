@@ -197,6 +197,7 @@ function getNearest(px, py, myLineId) {
 function draw() {
   if (currentAnimStep >= pointsPerLine) return; 
 
+  // Draw initial component pads on frame 0
   if (currentAnimStep === 0) {
     for (let i = 0; i < flowLines.length; i++) {
       let l = flowLines[i];
@@ -204,32 +205,39 @@ function draw() {
       
       fill(l.color);
       noStroke();
-      rect(p0.x - 3, p0.y - 3, 6, 6); // Faster than circle()
+      rect(p0.x - 3, p0.y - 3, 6, 6); 
     }
   }
 
-  for (let step = 0; step < animationSpeed; step++) {
-    let ptIdx = currentAnimStep + step;
+  // Draw all lines as continuous shapes
+  noFill();
+  strokeWeight(1.2); 
 
-    for (let i = 0; i < flowLines.length; i++) {
-      let l = flowLines[i];
+  for (let i = 0; i < flowLines.length; i++) {
+    let l = flowLines[i];
+    
+    // Only draw if the line has started animating
+    if (currentAnimStep < l.pts.length) {
+      stroke(l.color);
+      beginShape();
       
-      if (ptIdx < l.pts.length - 1) {
-        let p1 = l.pts[ptIdx];
-        let p2 = l.pts[ptIdx + 1];
+      // Draw up to the current animation step
+      for (let p = 0; p <= currentAnimStep && p < l.pts.length; p++) {
+        vertex(l.pts[p].x, l.pts[p].y);
+      }
+      
+      endShape();
 
-        stroke(l.color);
-        strokeWeight(1.2);
-        line(p1.x, p1.y, p2.x, p2.y);
-
-        if (ptIdx + 1 === l.pts.length - 1) {
-          fill(l.color);
-          noStroke();
-          rect(p2.x - 2, p2.y - 2, 4, 4); // Faster than circle()
-        }
+      // Draw the terminating pad if the line has finished animating
+      if (currentAnimStep + 1 === l.pts.length - 1) {
+        let last = l.pts[l.pts.length - 1];
+        fill(l.color);
+        noStroke();
+        rect(last.x - 2, last.y - 2, 4, 4); 
       }
     }
   }
+  
   currentAnimStep += animationSpeed;
 }
 
