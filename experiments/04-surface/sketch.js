@@ -10,7 +10,7 @@ let quads = [];
 
 function setup() {
   // Original fixed SVG canvas structure
-  createCanvas(1600, 1022, SVG);
+createCanvas(windowWidth, windowHeight, SVG);
   pixelDensity(1);
   createComposition();
 }
@@ -31,7 +31,7 @@ function createComposition() {
 
 function draw() {
   // Original soft, warm cartographic paper background
-  background('#F2F2EC'); 
+  background('#101010'); 
 
   generateMesh();
   drawMesh();
@@ -57,7 +57,7 @@ let time = frameCount * 0.008;
       let v = j / (rows - 1); 
 
       // Original bounds
-      let x = map(u, 0, 1, -1800, 1800);
+     let x = map(u, 0, 1, -width * 1.2, width * 1.2);
       let widthPinch = 1.0 - abs(u - 0.5) * 0.4;
       let z = map(v, 0, 1, -350 * widthPinch, 350 * widthPinch);
 
@@ -141,8 +141,8 @@ function project3D(x, y, z) {
 // =====================================================
 
 function drawMesh() {
-  fill('#F2F2EC'); 
-  stroke(30, 30, 30, 220); 
+fill('#101010'); 
+  stroke(239, 238, 233, 200); 
   strokeWeight(0.65); 
 
   for (let i = 0; i < quads.length; i++) {
@@ -185,4 +185,8 @@ function keyPressed() {
     a.click();
     URL.revokeObjectURL(url);
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
