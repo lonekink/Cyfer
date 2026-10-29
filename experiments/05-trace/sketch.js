@@ -1,0 +1,288 @@
+let cols = 15; 
+let rows = 20;
+let pointsPerLine = 1000; 
+let animationSpeed = 1; 
+
+let flowLines = [];
+let compositionSeed = 12345;
+let currentAnimStep = 150;
+
+// SPATIAL GRID FOR COLLISION DETECTION
+let grid = [];
+let cellSize = 100;
+let gridCols, gridRows;
+
+// CYFER ARCHIVE PALETTE
+const BG_COLOR = '#101010';
+const TRACE_COLOR = '#efeee9'; // White
+const ACCENT_COLOR = '#d6ff38'; // Lime
+
+// =====================================================
+// SETUP
+// =====================================================
+
+function setup() {
+  createCanvas(windowWidth, windowHeight, SVG);
+  pixelDensity(1);
+  createComposition();
+}
+
+// =====================================================
+// CREATE NEW COMPOSITION
+// =====================================================
+
+function createComposition() {
+  compositionSeed = floor(random(100000000));
+  randomSeed(compositionSeed);
+  noiseSeed(compositionSeed);
+
+  background(BG_COLOR); 
+  
+  gridCols = ceil(width / cellSize);
+  gridRows = ceil(height / cellSize);
+  grid = new Array(gridCols * gridRows).fill().map(() => []);
+
+  // Pre-calculate the entire PCB routing
+  generateFlow();
+  
+  currentAnimStep = 0;
+}
+
+// =====================================================
+// DIRECTIONAL FIELD (THE INVISIBLE CHIP ARCHITECTURE)
+// =====================================================
+
+function getDesiredAngle(x, y) {
+  let n = noise(x * 2.0, y * 2.0, compositionSeed * 0.001);
+  let n2 = noise(x * 4.0 + 100, y * 4.0 + 100);
+  let angle = map(n + n2 * 0.3, 0.2, 1.1, -PI, PI);
+  return angle;
+}
+
+// =====================================================
+// GENERATE FLOW LINES (PRE-CALCULATION)
+// =====================================================
+
+function generateFlow() {
+  flowLines = [];
+
+  let lineId = 0;
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      
+      let startX = map(i, 0, cols - 1, -0.1, 1.1); 
+      let startY = map(j, 0, rows - 1, -0.1, 1.1); 
+
+      if (j % 2 === 0) startX += (1.0 / cols) * 0.5;
+
+      let px = startX * width;
+      let py = startY * height;
+      
+      let rawAngle = getDesiredAngle(startX, startY);
+      let quantizedAngle = round(rawAngle / (PI / 4)) * (PI / 4);
+
+      // Pre-calculate the exact string color for this line
+      let isAccent = random() > 0.9; 
+      let c = isAccent ? ACCENT_COLOR : TRACE_COLOR;
+
+      flowLines.push({
+        id: lineId++,
+        x: startX,
+        y: startY,
+        color: c, 
+        pts: [{ x: px, y: py }],
+        active: true,
+        angle: quantizedAngle,
+        stepsSinceTurn: 0,
+        turnThreshold: floor(random(10, 40))
+      });
+      
+      addToGrid(px, py, lineId - 1);
+    }
+  }
+
+  let stepSize = 0.0025; 
+
+  for (let p = 0; p < pointsPerLine; p++) {
+    for (let i = 0; i < flowLines.length; i++) {
+      let l = flowLines[i];
+      if (!l.active) continue;
+
+      l.stepsSinceTurn++;
+      if (l.stepsSinceTurn > l.turnThreshold) {
+        let rawAngle = getDesiredAngle(l.x, l.y);
+        l.angle = round(rawAngle / (PI / 4)) * (PI / 4);
+        l.stepsSinceTurn = 0;
+        l.turnThreshold = floor(random(15, 60));
+      }
+
+      l.x += cos(l.angle) * stepSize; 
+      l.y += sin(l.angle) * stepSize; 
+      
+      let px = l.x * width;
+      let py = l.y * height;
+
+      let nearest = getNearest(px, py, l.id);
+
+      if (nearest) {
+        l.pts.push({ x: nearest.x, y: nearest.y });
+        l.active = false; 
+      } else {
+        l.pts.push({ x: px, y: py });
+        addToGrid(px, py, l.id);
+      }
+    }
+  }
+}
+
+// =====================================================
+// SPATIAL GRID SYSTEM
+// =====================================================
+
+function addToGrid(px, py, lineId) {
+  let cx = floor(px / cellSize);
+  let cy = floor(py / cellSize);
+  if (cx >= 0 && cx < gridCols && cy >= 0 && cy < gridRows) {
+    grid[cx + cy * gridCols].push({ x: px, y: py, lineId: lineId });
+  }
+}
+
+function getNearest(px, py, myLineId) {
+  let cx = floor(px / cellSize);
+  let cy = floor(py / cellSize);
+  
+  let minDist = 6.0; 
+  let dMin = minDist * minDist;
+  let closest = null;
+
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      let nx = cx + i;
+      let ny = cy + j;
+      
+      if (nx >= 0 && nx < gridCols && ny >= 0 && ny < gridRows) {
+        let cell = grid[nx + ny * gridCols];
+        for (let pt of cell) {
+          if (pt.lineId !== myLineId) {
+            let dsq = (pt.x - px) * (pt.x - px) + (pt.y - py) * (pt.y - py);
+            if (dsq < dMin) {
+              dMin = dsq;
+              closest = pt;
+            }
+          }
+        }
+      }
+    }
+  }
+  return closest;
+}
+
+// =====================================================
+// ANIMATION DRAW LOOP
+// =====================================================
+
+function draw() {
+  if (currentAnimStep >= pointsPerLine) return; 
+
+  if (currentAnimStep === 0) {
+    for (let i = 0; i < flowLines.length; i++) {
+      let l = flowLines[i];
+      let p0 = l.pts[0];
+      
+      fill(l.color);
+      noStroke();
+      rect(p0.x - 3, p0.y - 3, 6, 6); // Faster than circle()
+    }
+  }
+
+  for (let step = 0; step < animationSpeed; step++) {
+    let ptIdx = currentAnimStep + step;
+
+    for (let i = 0; i < flowLines.length; i++) {
+      let l = flowLines[i];
+      
+      if (ptIdx < l.pts.length - 1) {
+        let p1 = l.pts[ptIdx];
+        let p2 = l.pts[ptIdx + 1];
+
+        stroke(l.color);
+        strokeWeight(1.2);
+        line(p1.x, p1.y, p2.x, p2.y);
+
+        if (ptIdx + 1 === l.pts.length - 1) {
+          fill(l.color);
+          noStroke();
+          rect(p2.x - 2, p2.y - 2, 4, 4); // Faster than circle()
+        }
+      }
+    }
+  }
+  currentAnimStep += animationSpeed;
+}
+
+// =====================================================
+// EXPORT
+// =====================================================
+
+function drawFlowForExport() {
+  background(BG_COLOR);
+  
+  for (let i = 0; i < flowLines.length; i++) {
+    let l = flowLines[i];
+    if (l.pts.length < 2) continue;
+
+    noFill();
+    stroke(l.color); 
+    strokeWeight(1.2); 
+
+    beginShape();
+    for (let p = 0; p < l.pts.length; p++) {
+      vertex(l.pts[p].x, l.pts[p].y);
+    }
+    endShape();
+
+    fill(l.color);
+    noStroke();
+    rect(l.pts[0].x - 3, l.pts[0].y - 3, 6, 6); 
+    let last = l.pts[l.pts.length - 1];
+    rect(last.x - 2, last.y - 2, 4, 4); 
+  }
+}
+
+// =====================================================
+// KEYBOARD (R = Randomize, S = PNG, Z = SVG)
+// =====================================================
+
+function keyPressed() {
+  if (key === 'r' || key === 'R') {
+    createComposition();
+  }
+
+  if (key === 's' || key === 'S') {
+    saveCanvas('05-trace-route', 'png');
+  }
+
+  if (key === 'z' || key === 'Z') {
+    drawFlowForExport();
+
+    let svg = document.querySelector('svg');
+    let serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svg);
+    let blob = new Blob([source], { type: 'image/svg+xml' });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
+
+    a.href = url;
+    a.download = '05-trace-route.svg';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    background(BG_COLOR);
+    currentAnimStep = 0;
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  createComposition();
+}
