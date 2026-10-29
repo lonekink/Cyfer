@@ -13,7 +13,6 @@ function setup() {
 createCanvas(windowWidth, windowHeight, SVG);
   pixelDensity(1);
   createComposition();
-  noLoop();
 }
 
 // =====================================================
