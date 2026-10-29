@@ -14,8 +14,12 @@ let gridCols, gridRows;
 
 // CYFER ARCHIVE PALETTE
 const BG_COLOR = '#101010';
-const TRACE_COLOR = '#efeee9'; // White
-const ACCENT_COLOR = '#d6ff38'; // Lime
+const COLORS = [
+  '#efeee9',            // White
+  '#d6ff38',            // Lime Accent
+  'rgb(235, 255, 156)', // Light Yellow
+  'rgb(135, 156, 56)'   // Olive
+];
 
 // =====================================================
 // SETUP
@@ -81,9 +85,18 @@ function generateFlow() {
       let rawAngle = getDesiredAngle(startX, startY);
       let quantizedAngle = round(rawAngle / (PI / 4)) * (PI / 4);
 
-      // Pre-calculate the exact string color for this line
-      let isAccent = random() > 0.9; 
-      let c = isAccent ? ACCENT_COLOR : TRACE_COLOR;
+    // Distribute the colors across the traces
+      let colorRoll = random();
+      let c;
+      if (colorRoll < 0.55) {
+        c = COLORS[0]; // 55% White
+      } else if (colorRoll < 0.75) {
+        c = COLORS[2]; // 20% Light Yellow
+      } else if (colorRoll < 0.90) {
+        c = COLORS[3]; // 15% Olive
+      } else {
+        c = COLORS[1]; // 10% Lime Accent
+      }
 
       flowLines.push({
         id: lineId++,
