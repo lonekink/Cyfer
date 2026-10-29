@@ -79,9 +79,6 @@ function generateFlow() {
 
       if (j % 2 === 0) startX += (1.0 / cols) * 0.5;
 
-      startX += random(-0.04, 0.04);
-      startY += random(-0.04, 0.04);
-
       let px = startX * width;
       let py = startY * height;
       
