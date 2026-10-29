@@ -195,50 +195,63 @@ function getNearest(px, py, myLineId) {
 // =====================================================
 
 function draw() {
-  if (currentAnimStep >= pointsPerLine) return; 
-
-  // Draw initial component pads on frame 0
+  // Only clear the background ONCE at the very start
   if (currentAnimStep === 0) {
+    background(BG_COLOR);
+    
+    // Draw the starting pads
     for (let i = 0; i < flowLines.length; i++) {
       let l = flowLines[i];
       let p0 = l.pts[0];
-      
       fill(l.color);
       noStroke();
       rect(p0.x - 3, p0.y - 3, 6, 6); 
     }
   }
 
-  // Draw all lines as continuous paths
+  if (currentAnimStep >= pointsPerLine) return; 
+
   noFill();
   strokeWeight(1.2); 
 
-  for (let i = 0; i < flowLines.length; i++) {
-    let l = flowLines[i];
-    
-    if (currentAnimStep < l.pts.length) {
-      stroke(l.color);
-      noFill(); // Force no fill for this specific path
-      
-      // Use beginShape() WITHOUT endShape(CLOSE)
-      beginShape();
-      
-      for (let p = 0; p <= currentAnimStep && p < l.pts.length; p++) {
-        vertex(l.pts[p].x, l.pts[p].y);
-      }
-      
-      endShape(); // <--- NO 'CLOSE' HERE. This is the fix.
+  // Draw the new segments
+  for (let step = 0; step < animationSpeed; step++) {
+    let ptIdx = currentAnimStep + step;
 
-      // Draw the terminating pad
-      if (currentAnimStep + 1 === l.pts.length - 1) {
-        let last = l.pts[l.pts.length - 1];
-        fill(l.color);
-        noStroke();
-        rect(last.x - 2, last.y - 2, 4, 4); 
+    for (let i = 0; i < flowLines.length; i++) {
+      let l = flowLines[i];
+      
+      if (ptIdx < l.pts.length - 1) {
+        let p1 = l.pts[ptIdx];
+        let p2 = l.pts[ptIdx + 1];
+
+        stroke(l.color);
+        
+        // We use line() here, BUT we make them overlap by a tiny bit
+        // to prevent the dotted gap. (The gap happens because of sub-pixel rendering).
+        let dx = p2.x - p1.x;
+        let dy = p2.y - p1.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        
+        // Extend the line slightly to bridge the gap
+        if (dist > 0) {
+          let overlap = 0.5; // Extra pixels to overlap
+          let nx = dx / dist * overlap;
+          let ny = dy / dist * overlap;
+          line(p1.x, p1.y, p2.x + nx, p2.y + ny);
+        } else {
+          line(p1.x, p1.y, p2.x, p2.y);
+        }
+
+        // Draw terminating pad
+        if (ptIdx + 1 === l.pts.length - 1) {
+          fill(l.color);
+          noStroke();
+          rect(p2.x - 2, p2.y - 2, 4, 4);
+        }
       }
     }
   }
-  
   currentAnimStep += animationSpeed;
 }
 
