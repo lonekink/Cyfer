@@ -209,26 +209,27 @@ function draw() {
     }
   }
 
-  // Draw all lines as continuous shapes
+  // Draw all lines as continuous paths
   noFill();
   strokeWeight(1.2); 
 
   for (let i = 0; i < flowLines.length; i++) {
     let l = flowLines[i];
     
-    // Only draw if the line has started animating
     if (currentAnimStep < l.pts.length) {
       stroke(l.color);
+      noFill(); // Force no fill for this specific path
+      
+      // Use beginShape() WITHOUT endShape(CLOSE)
       beginShape();
       
-      // Draw up to the current animation step
       for (let p = 0; p <= currentAnimStep && p < l.pts.length; p++) {
         vertex(l.pts[p].x, l.pts[p].y);
       }
       
-      endShape();
+      endShape(); // <--- NO 'CLOSE' HERE. This is the fix.
 
-      // Draw the terminating pad if the line has finished animating
+      // Draw the terminating pad
       if (currentAnimStep + 1 === l.pts.length - 1) {
         let last = l.pts[l.pts.length - 1];
         fill(l.color);
